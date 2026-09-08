@@ -231,17 +231,25 @@ const char** iwpool_split_string(
   const char *sp = haystack;
   const char *ep = sp;
   int j = 0;
+
   for (int i = 0; *ep; ++i, ++ep) {
     const char ch = haystack[i];
     const char *sch = strchr(split_chars, ch);
+
     if ((ep >= sp) && (sch || (*(ep + 1) == '\0'))) {
       if (!sch && (*(ep + 1) == '\0')) {
         ++ep;
       }
+
       if (ignore_whitespace) {
-        while (iwchars_is_space(*sp)) ++sp;
-        while (iwchars_is_space(*(ep - 1))) --ep;
+        while (sp < ep && iwchars_is_space(*sp)) {
+          ++sp;
+        }
+        while (ep > sp && iwchars_is_space(*(ep - 1))) {
+          --ep;
+        }
       }
+
       if (ep >= sp) {
         char *s = iwpool_alloc(ep - sp + 1, pool);
         if (!s) {

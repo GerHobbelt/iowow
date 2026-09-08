@@ -251,7 +251,7 @@ struct iwulist* iwulist_clone(const struct iwulist *list) {
     free(nlist);
     return 0;
   }
-  memcpy(nlist->array, list->array + list->start, list->num * list->usize);
+  memcpy(nlist->array, list->array + list->start * list->usize, list->num * list->usize);
   nlist->usize = list->usize;
   nlist->num = list->num;
   nlist->anum = anum;
